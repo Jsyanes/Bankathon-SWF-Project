@@ -1,0 +1,44 @@
+﻿
+@{
+    ViewBag.Title = "ProvidersBalance";
+}
+
+@using Coticoin.Core.Web.Models
+@model ExchangeAccountDataModel
+
+@foreach (var i in Model.Data)
+{
+
+
+<div class="col-md-3">
+    @if (i.Name == "binance")
+    {
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <img src="https://flexifilesatest.blob.core.windows.net/videos/Binance-logo.png" class="img-rounded" height="50" width="100" alt="Alternate Text" />
+        </div>
+    }
+    else if (i.Name == "kraken")
+    {
+
+
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <img src="https://flexifilesatest.blob.core.windows.net/videos/Kraken-Logo.png" class="img-rounded" height="50" width="100" alt="Alternate Text" />
+        </div>
+    }
+    else if (i.Name == "buda")
+    {
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <img src="https://flexifilesatest.blob.core.windows.net/videos/11619822.png" class="img-rounded" height="50" width="100" alt="Alternate Text" />
+        </div>
+    }
+    else if (i.Name == "bitstamp")
+    {
+        <div class="feature-icon d-inline-flex align-items-center justify-content-center text-bg-primary bg-gradient fs-2 mb-3">
+            <img src="https://flexifilesatest.blob.core.windows.net/videos/5a521ea62f93c7a8d5137fae.png" class="img-rounded" height="50" width="100" alt="Alternate Text" />
+        </div>
+    }
+    <p>@i.Name</p>
+    <p>@i.Balance</p>
+</div>
+
+}

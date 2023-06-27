@@ -1,0 +1,159 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+@using Coticoin.Core.Web.Models
+
+@model BankAccountModel
+
+<div class="container-fluid">
+    <div class="row">
+        <br /><br /><br />
+                    <div class="col-md-6">
+                        <h2>Reto #1</h2>
+                        <hr />
+                        <div class="row">
+
+
+                            <div class="col-md-6">
+
+                                Mi balance $ @Model.Balance
+                            </div>
+                            <div class="col-md-6">
+                                <p id="resultBalance"></p>
+                                <p id="resultTransfer"></p>
+                                <p id="Error"></p>
+                            </div>
+                            <div class="col-md-7">
+                                <p> Precio a comprar</p>
+                                <input type="number" class="form-control" name="Price" id="Price" value="1" />
+
+                            </div>
+                            <div class="col-md-5">
+                                <br /><br />
+                                <button class="btn btn-primary" onclick="calcular()">Calcular</button>
+                            </div>
+
+                            <div id="nft-p"></div>
+
+
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <h2>Reto #2</h2>
+                        <hr />
+                        @Html.Action("IndexProviders", "Home")
+                    </div>
+    </div>
+</div>
+
+    
+<script>
+    $(document).ready(function () {
+
+        calcular();
+
+    });
+    function calcular() {
+        var nft = $("#nft-p");
+        var Price = $("#Price").val();
+        $.ajax({
+            url: "/Home/Exchanges?Price=" + Price,
+            type: 'POST',
+            dataType: 'html',
+            cache: false,
+            success: function (html) {
+                nft.html(html);
+            }
+        });
+    }
+
+    
+    function sell(name) {
+      var PriceBinance = $("#Price").val();
+      debugger;
+        if (name == 'Binance') {
+           $.ajax({
+                    url: "@Url.Action("BuysellBinance", "Home")",
+               data: { PriceBinance: PriceBinance,Type:"sale" },
+                    success: function (data) {
+                        if (data.Success) {
+
+                            $("#resultBalance").text("Balance actual: "+data.Balance);
+                            $("#resultTransfer").text("transfer Id: " + data.transferId);
+                            $("#Error").text("");
+                        }
+                        else {
+                            $("#Error").text(data.Message);
+                            $("#resultBalance").text("");
+                            $("#resultTransfer").text("");
+                        }
+                    }
+                });
+        }
+        else if (name == 'Kraken') {
+            var Pricekraken = $("#Price").val();
+              $.ajax({
+                    url: "@Url.Action("Buysellkraken", "Home")",
+                  data: { Pricekraken: Pricekraken, Type: "sale" },
+                    success: function (data) {
+                        if (data.Success) {
+
+                            $("#resultBalance").text("Balance actual: "+data.Balance);
+                            $("#resultTransfer").text("transfer Id: " + data.transferId);
+                            $("#Error").text("");
+                        }
+                        else {
+                            $("#Error").text(data.Message);
+                            $("#resultBalance").text("");
+                            $("#resultTransfer").text("");
+                        }
+                    }
+                });
+        }
+
+    }
+  function buy(name) {
+      var PriceBinance = $("#Price").val();
+      debugger;
+        if (name == 'Binance') {
+           $.ajax({
+                    url: "@Url.Action("BuysellBinance", "Home")",
+               data: { PriceBinance: PriceBinance, Type: "purchase" },
+                    success: function (data) {
+                        if (data.Success) {
+
+                            $("#resultBalance").text("Balance actual: "+data.Balance);
+                            $("#resultTransfer").text("transfer Id: " + data.transferId);
+                            $("#Error").text("");
+                        }
+                        else {
+                            $("#Error").text(data.Message);
+                            $("#resultBalance").text("");
+                            $("#resultTransfer").text("");
+                        }
+                    }
+                });
+        }
+        else if (name == 'Kraken') {
+            var Pricekraken = $("#Price").val();
+              $.ajax({
+                    url: "@Url.Action("Buysellkraken", "Home")",
+                  data: { Pricekraken: Pricekraken, Type: "purchase" },
+                    success: function (data) {
+                        if (data.Success) {
+
+                            $("#resultBalance").text("Balance actual: "+data.Balance);
+                            $("#resultTransfer").text("transfer Id: " + data.transferId);
+                            $("#Error").text("");
+                        }
+                        else {
+                            $("#Error").text(data.Message);
+                            $("#resultBalance").text("");
+                            $("#resultTransfer").text("");
+                        }
+                    }
+                });
+        }
+
+    }
+</script>
